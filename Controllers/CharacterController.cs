@@ -13,7 +13,7 @@ namespace Controllers
         private static List<Character> characters = new List<Character>()
         {
             new Character(),
-            new Character {Nome = "Eternal"}
+            new Character {Id = 1, Nome = "Eternal"}
         };
 
         [HttpGet("GetAll")]
@@ -22,10 +22,17 @@ namespace Controllers
             return Ok(characters);
         }
 
-        [HttpGet]
-        public ActionResult<Character> GetSingle()
+        [HttpGet("{id}")]
+        public ActionResult<Character> GetSingle(int id)
         {
-            return Ok(characters[0]);
+            return Ok(characters.FirstOrDefault(c => c.Id == id));
+        }
+
+        [HttpPost]
+        public ActionResult<List<Character>> AddCharacter(Character newCharacter)
+        {
+            characters.Add(newCharacter);
+            return Ok(characters);
         }
     }
 }
