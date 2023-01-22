@@ -35,10 +35,23 @@ namespace Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<List<Character>>> AddCharacter(AddCharacterDto newCharacter)
+        public async Task<ActionResult<ServiceResponse<List<GetCharacterDto>>>> AddCharacter(AddCharacterDto newCharacter)
         {
             
             return Ok(await _characterService.AddCharacter(newCharacter));
+        }
+
+
+        [HttpPut]
+        public async Task<ActionResult<List<Character>>> UpdateCharacter(UpdateCharacterDto updateCharacter)
+        {
+            var response = await _characterService.UpdateCharacter(updateCharacter);
+            if(response.Data is null)
+            {
+                    return NotFound(response);
+            }
+
+            return Ok(response);
         }
     }
 }
