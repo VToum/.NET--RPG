@@ -15,24 +15,30 @@ namespace Controllers
             new Character(),
             new Character {Id = 1, Nome = "Eternal"}
         };
+        private readonly ICharacterService _characterService;
+
+        public CharacterController(ICharacterService characterService)
+        {
+            _characterService = characterService;
+        }
 
         [HttpGet("GetAll")]
-        public ActionResult<List<Character>> Get()
+        public async Task<ActionResult<ServiceResponse<List<GetCharacterDto>>>> Get()
         {
-            return Ok(characters);
+            return Ok(await _characterService.GetAllCharacter());
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Character> GetSingle(int id)
+        public async Task<ActionResult<ServiceResponse<GetCharacterDto>>> GetSingle(int id)
         {
-            return Ok(characters.FirstOrDefault(c => c.Id == id));
+            return Ok(await _characterService.GetCharacterById(id));
         }
 
         [HttpPost]
-        public ActionResult<List<Character>> AddCharacter(Character newCharacter)
+        public async Task<ActionResult<List<Character>>> AddCharacter(AddCharacterDto newCharacter)
         {
-            characters.Add(newCharacter);
-            return Ok(characters);
+            
+            return Ok(await _characterService.AddCharacter(newCharacter));
         }
     }
 }

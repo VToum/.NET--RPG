@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+
 namespace Controllers.Services.CharacterServices
 {
     public interface ICharacterService
     {
-        List<Character> GetAllCharacter();
+        Task<ServiceResponse<List<GetCharacterDto>>> GetAllCharacter();
 
-        Character GetCharacterById(int id);
+        Task<ServiceResponse<GetCharacterDto>> GetCharacterById(int id);
 
-        List<Character> AddCharacter(Character newCharacter);
+        Task<ServiceResponse<List<GetCharacterDto>>> AddCharacter(AddCharacterDto newCharacter);
+
     }
 }
