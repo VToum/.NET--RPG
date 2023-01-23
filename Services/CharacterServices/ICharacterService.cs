@@ -16,6 +16,6 @@ namespace Controllers.Services.CharacterServices
 
         Task<ServiceResponse<GetCharacterDto>> UpdateCharacter(UpdateCharacterDto updateCharacter);
 
-
+        Task<ServiceResponse<List<GetCharacterDto>>> RemoveCharacter(int id);
     }
 }

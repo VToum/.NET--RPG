@@ -37,7 +37,7 @@ namespace Controllers
         [HttpPost]
         public async Task<ActionResult<ServiceResponse<List<GetCharacterDto>>>> AddCharacter(AddCharacterDto newCharacter)
         {
-            
+
             return Ok(await _characterService.AddCharacter(newCharacter));
         }
 
@@ -46,9 +46,22 @@ namespace Controllers
         public async Task<ActionResult<List<Character>>> UpdateCharacter(UpdateCharacterDto updateCharacter)
         {
             var response = await _characterService.UpdateCharacter(updateCharacter);
-            if(response.Data is null)
+            if (response.Data is null)
             {
-                    return NotFound(response);
+                return NotFound(response);
+            }
+
+            return Ok(response);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<ServiceResponse<List<GetCharacterDto>>>> RemoveCharacter(int id)
+        {
+
+            var response = await _characterService.RemoveCharacter(id);
+            if (response.Data is null)
+            {
+                return NotFound(response);
             }
 
             return Ok(response);

@@ -57,6 +57,8 @@ namespace Controllers.Services.CharacterServices
                 if(character is null)
                     throw new Exception($"Personagem com o ID inexistente na base de dados. '{updateCharacter.Id}' - not Found");
 
+                _mapper.Map(updateCharacter, character);
+
                 character.Nome = updateCharacter.Nome;
                 character.PontosDeVida = updateCharacter.PontosDeVida;
                 character.Defesa = updateCharacter.Defesa;
@@ -75,6 +77,32 @@ namespace Controllers.Services.CharacterServices
             }
 
             return serviceResponse;
+        }
+
+        public async Task<ServiceResponse<List<GetCharacterDto>>> RemoveCharacter(int id)
+        {
+            var serviceResponse = new ServiceResponse<List<GetCharacterDto>>();
+
+            try
+            {
+                var character = characters.FirstOrDefault(c => c.Id == id);
+                if(character is null)
+                    throw new Exception($"Personagem com o ID inexistente na base de dados. '{id}' - not Found");
+
+                characters.Remove(character);
+
+                serviceResponse.Data = characters.Select(c => _mapper.Map<GetCharacterDto>(c)).ToList();
+
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+
+            }
+
+            return serviceResponse;
+
         }
     }
 }
